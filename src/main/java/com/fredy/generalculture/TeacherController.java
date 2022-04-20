@@ -15,7 +15,7 @@ import java.util.Comparator;
 @Controller
 public class TeacherController {
 
-    private static final String code = "6725";
+    private static final String code = "1234";
 
     private final ReactiveRedisOperations<String, StudentRequest> studentRequestOps;
     private final ReactiveRedisConnectionFactory factory;
