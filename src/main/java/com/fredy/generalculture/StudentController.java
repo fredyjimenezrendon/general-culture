@@ -1,6 +1,5 @@
 package com.fredy.generalculture;
 
-import org.springframework.data.redis.connection.ReactiveRedisConnectionFactory;
 import org.springframework.data.redis.core.ReactiveRedisOperations;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,18 +11,24 @@ import java.util.Date;
 public class StudentController {
 
     private final ReactiveRedisOperations<String, StudentRequest> studentRequestOps;
-    private final ReactiveRedisConnectionFactory factory;
 
-    public StudentController(ReactiveRedisOperations<String, StudentRequest> studentRequestOps, ReactiveRedisConnectionFactory factory) {
+    public StudentController(ReactiveRedisOperations<String, StudentRequest> studentRequestOps) {
         this.studentRequestOps = studentRequestOps;
-        this.factory = factory;
     }
 
 
     @PostMapping("/student")
     public void student(@RequestParam String studentName) {
         StudentRequest studentRequest = new StudentRequest();
+        studentRequest.setTime(String.valueOf(new Date().getTime()));
         studentRequest.setName(studentName);
-        studentRequestOps.convertAndSend(new Date().toString(), studentRequest);
+
+        boolean isPresent = studentRequestOps.keys("*").flatMap(studentRequestOps.opsForValue()::get).toStream().anyMatch(o -> studentName.equals(o.getName()));
+
+        if (!isPresent) {
+            studentRequestOps.opsForValue().set(String.valueOf(new Date().getTime()), studentRequest).thenMany(studentRequestOps.keys("*")
+                            .flatMap(studentRequestOps.opsForValue()::get))
+                    .subscribe();
+        }
     }
 }

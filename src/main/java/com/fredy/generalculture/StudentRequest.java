@@ -9,5 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class StudentRequest {
 
+    private String time;
     private String name;
 }
