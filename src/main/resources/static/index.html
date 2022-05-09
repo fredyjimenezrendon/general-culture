@@ -13,10 +13,10 @@
         }
 
         .btn-circle.btn-xl {
-            width: 110px;
-            height: 110px;
+            width: 180px;
+            height: 180px;
             padding: 10px 16px;
-            border-radius: 60px;
+            border-radius: 90px;
             font-size: 12px;
             text-align: center;
         }
@@ -50,6 +50,11 @@
             margin-top: 20px;
             transform: translate(-50%, 0%);
         }
+
+        .student-flex {
+            display: flex;
+            flex-direction: column;
+        }
     </style>
 
 </head>
@@ -70,8 +75,11 @@
         <input type="button" class="btn btn-primary" value="Entrar" id="student-registration">
     </div>
 
-    <div id="student-answer" class="hero-content" style="display: none">
+    <div id="student-answer" class="hero-content student-flex" style="display: none">
         <button type="button" class="btn btn-primary btn-circle btn-xl" id="student-request">Responder!</button>
+        <br>
+        <br>
+        <button type="button" class="btn btn-primary" id="student-exit">Salir</button>
     </div>
 
 </div>

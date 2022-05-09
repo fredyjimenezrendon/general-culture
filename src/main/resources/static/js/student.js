@@ -26,4 +26,9 @@ jQuery(function($){
             });
         }
     });
+
+    $('#student-exit').on( "click", function() {
+        $.cookie("student-name", 'undefined');
+        location.reload();
+    });
 });
